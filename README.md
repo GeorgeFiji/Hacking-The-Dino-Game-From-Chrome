@@ -1,47 +1,61 @@
-Hack Google Chrome and Make your Dinosaur Immortal
+# Hack Google Chrome Dinosaur Game and Make Your Dinosaur Immortal
+
 The game can be hacked pretty easily, making your dinosaur not even flinch at the sight of a cactus.
 
-To hack the game, first go the the error message page where your dinosaur is hanging out.
+## Getting Started
+To hack the game, first go to the error message page where your dinosaur is hanging out.
 
-Go ahead and press the space bar to start the game. Once the game starts, right-click and select Inspect” to open up Chrome DevTools, then select the Console tab.
+1. Press the **space bar** to start the game.
+2. Once the game starts, right-click and select **Inspect** to open Chrome DevTools, then select the **Console** tab.
+3. Alternatively, you can use the shortcut **Ctrl+Shift+I** (Windows/Linux) or **Cmd+Option+I** (Mac) to open the Console tab directly.
 
-You can also do this by using the Ctrl+Shift+I shortcut, which takes you straight to the Console tab of DevTools.
+---
 
-Open Chrome Console
-Make sure you are on the No Internet Connection page.
-Right click anywhere on the page and select Inspect.
-Go to Console tab. This is where we will enter the commands to tweak the game.
-Tweaking Speed
-Type the following command in Console and press enter. You can use any other speed in place of 1000.
+## Tweaks and Hacks
 
-Runner.instance_.setSpeed(1000)
-Immortality
-After every command press enter. All the commands are case-sensitive.
+### 1. **Tweaking Speed**
+Set the speed of the game by typing the following command in the Console and pressing Enter. Replace `1000` with any desired speed:
+```javascript
+Runner.instance_.setSpeed(1000);
+```
 
-We store the original game over function in a variable:
+### 2. **Immortality**
+Make your dinosaur immortal by overriding the `gameOver` function:
 
-var original = Runner.prototype.gameOver
-Then, we make the game over function empty:
+#### Store the Original Game Over Function:
+```javascript
+var original = Runner.prototype.gameOver;
+```
 
-Runner.prototype.gameOver = function(){}
-Stopping the game after using Immortality
+#### Make the Game Over Function Empty:
+```javascript
+Runner.prototype.gameOver = function(){};
+```
 
-When you want to stop the game, Revert back to the original game over function:
+#### Revert Back to Original:
+When you want to stop the game, revert to the original function:
+```javascript
+Runner.prototype.gameOver = original;
+```
 
-Runner.prototype.gameOver = original
-Setting the current score
-Let’s set the score to 12345. You can set any other score less than 99999. The current score is reset on game over.
+### 3. **Setting the Current Score**
+Set a custom score (e.g., `12345`). Replace `12345` with your desired score (maximum is `99999`):
+```javascript
+Runner.instance_.distanceRan = 12345 / Runner.instance_.distanceMeter.config.COEFFICIENT;
+```
 
-Runner.instance_.distanceRan = 12345 / Runner.instance_.distanceMeter.config.COEFFICIENT
-Dino jumping too high?
-You can control how high the dino jumps by using the below function. Adjust the value as necessary.
+### 4. **Adjusting Jump Height**
+Control how high the dinosaur jumps. Adjust the value (default is `10`) as necessary:
+```javascript
+Runner.instance_.tRex.setJumpVelocity(10);
+```
 
-Runner.instance_.tRex.setJumpVelocity(10)
-Load earlier comments...
-@sudoer-Huatao
-sudoer-Huatao commented on Sep 3, 2023
-Here's code for a bot that plays:
+---
 
+## Automating Gameplay with a Bot
+The following script automates the game, allowing the dinosaur to avoid obstacles automatically:
+
+```javascript
 function TrexRunnerBot() {
   const makeKeyArgs = (keyCode) => {
     const preventDefault = () => void 0;
@@ -92,7 +106,6 @@ function TrexRunnerBot() {
   }
   function isNextObstacleCloseTo(currentObstacle) {
     const nextObstacle = Runner().horizon.obstacles[1];
- 
     return nextObstacle && nextObstacle.xPos - currentObstacle.xPos <= Runner().currentSpeed * 42;
   }
   function jumpFast() {
@@ -103,18 +116,28 @@ function TrexRunnerBot() {
 }
 let bot = TrexRunnerBot();
 let botInterval = setInterval(bot.conquerTheGame, 2);
-@sudoer-Huatao
-sudoer-Huatao commented on Sep 3, 2023
-image
-try beating me i dare yall
+```
 
-It's actually not that hard. Just use this:
+---
 
+## Custom Score Manipulation
+To manipulate the score dynamically:
+```javascript
 let hackScore = 0;
- 
+
 Object.defineProperty(Runner.instance_, 'distanceRan', {
   get: () => hackScore,
   set: (value) => hackScore = value + Math.floor(Math.random() * 1000),
   configurable: true,
   enumerable: true,
 });
+```
+
+---
+
+## Notes
+- These hacks are for educational purposes and temporary use. The modifications reset when the page is refreshed.
+- Enjoy exploring the tweaks but avoid using them maliciously!
+
+Happy Hacking! 🎉
+
